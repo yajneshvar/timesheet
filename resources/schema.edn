@@ -1,0 +1,38 @@
+{:objects
+ {:User
+  {:description "A person who could be employee/student/emergency contact"
+   :fields
+   {:id {:type (non-null ID)}
+    :name {:type (non-null String)}
+    :email {:type String}
+    :role {:type (list :Role)}
+    :phone {:type String}
+    :address {:type :Address
+              :resolve :User/address}
+    }}
+
+   :Address
+   {:description "Address of a user"
+    :fields 
+    {:id {:type (non-null ID)}
+     :street {:type (non-null String)}
+     :city {:type (non-null String)}
+     :postal_code {:type (non-null String)}
+     :country {:type (non-null String)}}
+    }
+
+   :Role 
+    {:description "Role of a user"
+     :fields
+     {:id {:type (non-null ID)}
+      :name {:type (non-null String)}
+      }
+    }}
+
+ :queries
+ {:user_by_id
+  {:type :User
+   :description "Access a BoardGame by its unique id, if it exists."
+   :args
+   {:id {:type ID}}
+   :resolve :query/user-by-id}}}
