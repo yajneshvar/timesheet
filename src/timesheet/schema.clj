@@ -5,24 +5,23 @@
       [com.walmartlabs.lacinia.util :as util]
       [com.walmartlabs.lacinia.schema :as schema]
       [com.stuartsierra.component :as component]
-      [clojure.edn :as edn]))
+      [clojure.edn :as edn]
+      [timesheet.db :as db]
+      [clojure.tools.logging :as log]))
 
 
-      (defn user-by-id [user-map context args value]
-        (let[{:keys [id]} args]
-          (get user-map id)))
+      (defn user-by-id 
+        [db]
+        (fn [_ args _] (db/find-user-by-id db (:id args))))
 
       (defn resolve-address-by-user
-        [address-map context args user]
-        (-> user
-            :address
-            address-map))
+        [db]
+        (fn [_ _ user] (db/find-address-by-user db (:id user))))
 
       (defn resolve-role-by-user
-        [role-map context args user]
-        (->> user
-            :roles
-            (map role-map)))
+        [db]
+        (fn [_ _ user] (
+          db/list-roles-by-user db (:id user))))
 
       (defn entity-map
         [data k]
@@ -38,16 +37,11 @@
 
       (defn resolver-map
         [component]
-        (let[ data (-> (io/resource "data.edn")
-                      slurp
-                      edn/read-string)
-              user-map (entity-map data :users)
-              address-map (entity-map data :addresses)
-              role-map (entity-map data :roles)]
-                             {:query/user-by-id (partial user-by-id user-map)
-                              :User/address (partial resolve-address-by-user address-map)
-                              :User/role (partial resolve-role-by-user role-map)
-                              :mutate/user (partial resolve-role-by-user role-map)}))
+        (let[ db (:db component)]
+                             {:query/user-by-id (user-by-id db)
+                              :User/address (resolve-address-by-user db)
+                              :User/role (resolve-role-by-user db)
+                              :mutate/user (resolve-role-by-user db)}))
       
       (defn load-schema
         [component]
@@ -70,7 +64,9 @@
   
   (defn new-schema-provider
     []
-    {:schema-provider (map->SchemaProvider {})})
+    {:schema-provider (-> {}
+                        map->SchemaProvider
+                        (component/using [:db]))})
 
 
           

@@ -2,16 +2,16 @@
 [{:id "1"
   :name "abc"
   :email "test@gmail.com"
-  :role #{1}
+  :roles #{"1" "2"}
   :phone "6477053918"
   :address 1}]
   
 :roles
-[{:id 1
+[{:id "1"
   :name "Admin"}]
   
 :addresses
-[{:id 1
+[{:id "1"
   :street "704-250 St George Street"
   :city "Toronto"
   :postal_code "M5R3L8"

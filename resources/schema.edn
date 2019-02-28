@@ -5,7 +5,8 @@
    {:id {:type (non-null ID)}
     :name {:type (non-null String)}
     :email {:type String}
-    :role {:type (list :Role)}
+    :roles {:type (list :Role)
+            :resolve :User/role}
     :phone {:type String}
     :address {:type :Address
               :resolve :User/address}
@@ -35,4 +36,17 @@
    :description "Access a BoardGame by its unique id, if it exists."
    :args
    {:id {:type ID}}
-   :resolve :query/user-by-id}}}
+   :resolve :query/user-by-id}}
+ :mutations
+ {:new_user
+   {:type :User
+    :description "Create new user"
+    :args
+    {:name {:type String}
+     :email {:type String}
+     :roles {:type (list ID)}
+     :phone {:type String}
+     :address {:type ID}}
+    :resolve :mutate/user
+   }
+ }}

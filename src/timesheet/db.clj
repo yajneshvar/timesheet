@@ -2,10 +2,11 @@
     (:require
         [clojure.edn :as edn]
         [clojure.java.io :as io]
-        [com.stuartsierra.component :as component]))
+        [com.stuartsierra.component :as component]
+        [clojure.tools.logging :as log]))
 
 (defrecord Db [data]
-    component/LifeCycle
+    component/Lifecycle
     (start [this]
         (assoc this :data (-> (io/resource "data.edn")
                         slurp
@@ -35,9 +36,10 @@
         (filter #(= address-id (:id %)))
         first))
 
-(defn list-role-by-user
+(defn list-roles-by-user
     [db user-id]
-    (let [roles (:roles find-user-by-id user-id)]
+    (let [roles (:roles (find-user-by-id db user-id))]
+        (log/info (str "Roles are " roles "and user-id is " user-id))
         (->> db
             :data
             deref
