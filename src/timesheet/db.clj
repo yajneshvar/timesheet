@@ -53,5 +53,5 @@
             :data
             deref
             :addresses
-            (filter #(= address-id (:id %))
-            first))))
+            (filter #(= address-id (:id %)))
+            first)))

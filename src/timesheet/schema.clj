@@ -7,6 +7,7 @@
       [com.stuartsierra.component :as component]
       [clojure.edn :as edn]
       [timesheet.db :as db]
+      [timesheet.records.record :as record]
       [clojure.tools.logging :as log]))
 
 
@@ -28,12 +29,16 @@
         (reduce #(assoc %1 (:id %2) %2)
                 {}
                 (get data k)))
-
-      
+     
       (defn create-user
         [context args val]
-        (spit "new_data.json" )
-      )
+        (let [{name :name email :email roles :roles phone :phone address :address} args
+              data (record/map->User {:name name :email email :roles roles :phone phone :address address})]
+          (->> data
+            pr-str
+            (spit "new_data.json"))
+          data))
+
 
       (defn resolver-map
         [component]
@@ -41,7 +46,7 @@
                              {:query/user-by-id (user-by-id db)
                               :User/address (resolve-address-by-user db)
                               :User/role (resolve-role-by-user db)
-                              :mutate/user (resolve-role-by-user db)}))
+                              :mutate/user create-user}))
       
       (defn load-schema
         [component]
