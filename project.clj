@@ -6,5 +6,6 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                 [com.walmartlabs/lacinia-pedestal "0.11.0"]
                 [com.stuartsierra/component "0.4.0"]
-                [io.aviso/logging "0.3.1"]]
+                [io.aviso/logging "0.3.1"]
+                [com.novemberain/monger "3.1.0"]]
   :repl-options {:init-ns user})
