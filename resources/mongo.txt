@@ -1,0 +1,4 @@
+db.address.insertOne({street: "704-250 St George Street", city: "Toronto", postal_code: "M5R3L8", country: "Canada"})
+5ca61a04f44e0d998fa60c20
+db.role.insertOne({name:"Admin"})
+5ca61bf9f44e0d998fa60c21
