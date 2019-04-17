@@ -5,11 +5,9 @@
    {:id {:type (non-null ID)}
     :name {:type (non-null String)}
     :email {:type String}
-    :roles {:type (list :Role)
-            :resolve :User/role}
+    :roles {:type (list String)}
     :phone {:type String}
-    :address {:type :Address
-              :resolve :User/address}
+    :address {:type :Address}
     }}
 
    :Address
@@ -19,16 +17,17 @@
      :street {:type (non-null String)}
      :city {:type (non-null String)}
      :postal_code {:type (non-null String)}
-     :country {:type (non-null String)}}
-    }
-
-   :Role 
-    {:description "Role of a user"
-     :fields
-     {:id {:type (non-null ID)}
-      :name {:type (non-null String)}
-      }
-    }}
+     :country {:type (non-null String)}
+     }}
+  
+  :TimeEntry
+  {:description "time entry of user"
+    :fields 
+    {:id {:type (non-null ID)}
+      :total_hours: {:type Integer}
+      :task_des {:type String}
+      :date {:type Date}
+    }}}
 
  :queries
  {:user_by_id

@@ -1,0 +1,27 @@
+{
+    "users": {
+        "1": {
+            "_id": "fff",
+            "username": "yaj",
+            "first_name": "Yajneshvar",
+            "last_name": "Arumugam",
+            "roles": ["Admin", "Staff"],
+            "email": "test@gmail.com",
+            "address": {
+                "street": "704-250 St George Street",
+                "city": "Toronto",
+                "postal_code": "M5R3L8",
+                "country": "Canada"
+            }
+        }
+    },
+
+    "time_entries": {
+        "1": {
+            "date": 1233445466,
+            "task_desc": "Teaching",
+            "total_hours": 8,
+            "user_id": "ffff"
+        } 
+    }
+}
